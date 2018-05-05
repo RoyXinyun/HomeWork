@@ -1,0 +1,95 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class MatrixMulti {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+
+        String a = "";
+        ArrayList array1 = new ArrayList();
+        ArrayList array2 = new ArrayList();
+        boolean f = true;
+        System.out.println("请输入矩阵一:  ");
+        while(f){
+            System.out.println("请输入直到输入空格： ");
+            a = input.nextLine();
+            if(a.equals(" ")){
+                f = false;
+                System.out.println("输入完毕！您输入的矩阵一为： ");
+                break;
+            }
+            array1.add(a);
+        }
+        for(int i = 0;i < array1.size();i++){
+            System.out.println(array1.get(i));
+        }
+
+        f = true;
+        System.out.println("请输入矩阵二:  ");
+        while(f){
+            System.out.println("请输入直到输入空格： ");
+            a = input.nextLine();
+            if(a.equals(" ")){
+                f = false;
+                System.out.println("输入完毕！您输入的矩阵二为： ");
+                break;
+            }
+            array2.add(a);
+        }
+
+        for(int i = 0;i < array2.size();i++){
+            System.out.println(array2.get(i));
+        }
+
+        int index1 = array1.size();
+        int index2 = array2.size();
+        String[][] matrix1 = new String[index1][];
+        String[][] matrix2 = new String[index2][];
+        int[][] matrix3;
+
+        for(int i = 0;i < matrix1.length;i++){
+            matrix1[i] = array1.get(i).toString().split(" ");
+        }
+
+        for(int i = 0;i < matrix2.length;i++){
+            matrix2[i] = array2.get(i).toString().split(" ");
+        }
+
+        for(int i = 0;i < matrix1.length;i++){
+            for(int j = 0;j < matrix1[i].length;j++){
+                System.out.print(matrix1[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        System.out.println("*");
+        for(int i = 0;i < matrix2.length;i++){
+            for(int j = 0;j < matrix2[i].length;j++){
+                System.out.print(matrix2[i][j] + " ");
+            }
+            System.out.println("");
+        }
+
+        if(matrix1[0].length == index2){
+            matrix3 = new int[index1][matrix2[0].length];
+            for(int r = 0;r < matrix3.length;r++){
+                for(int c = 0;c < matrix3[0].length;c++){
+                    for(int i = 0;i < index2;i++)
+                        matrix3[r][c] += Integer.parseInt(matrix1[r][i]) * Integer.parseInt(matrix2[i][c]);
+                }
+            }
+            System.out.println("=");
+            for(int i = 0;i < matrix3.length;i++){
+                for(int j = 0;j < matrix3[i].length;j++){
+                    System.out.print(matrix3[i][j] + " ");
+                }
+                System.out.println("");
+            }
+
+        }
+        else
+            System.out.println("矩阵不能相乘" );
+
+
+
+    }
+}
