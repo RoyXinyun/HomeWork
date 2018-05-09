@@ -1,0 +1,186 @@
+package calculate;
+
+public class Shape {
+    double area;
+    double perimeter;
+    double volume;
+
+    public void setArea(){
+    };
+    public void setPerimeter(){
+    }
+    public void setVolume(){
+    };
+    
+    public double getArea(){
+        return area;
+    }
+    public double getPerimeter(){
+        return perimeter;
+    }
+    public double getVolume(){
+        return volume;
+    }
+
+}
+
+
+package calculate;
+
+public class Circle extends Shape{
+    private double radius;
+
+    public Circle(double radius){
+        this.radius = radius;
+    }
+
+    public void setRadius(){
+        this.radius = radius;
+    }
+    public double getRadius(){
+        return radius;
+    }
+    public void setArea(){
+        area = Math.PI * Math.pow(radius,2);
+    }
+
+    public void setPerimeter(){
+        perimeter = 2 * Math.PI * radius;
+    }
+
+}
+
+
+package calculate;
+
+public class Rectangle extends Shape{
+    private double longth;
+    private double width;
+
+    public Rectangle(){};
+
+    public Rectangle(double longth,double width){
+        this.longth = longth;
+        this.width = width;
+    }
+
+    public void setLongth(){
+        this.longth = longth;
+    }
+    public double getLongth(){
+        return longth;
+    }
+
+    public void setWidth(){
+        this.width = width;
+    }
+    public double getWidth(){
+        return width;
+    }
+
+    public void setArea() {
+        area = longth * width;
+    }
+
+   public void setPerimeter(){
+        perimeter = (longth + width) * 2;
+   }
+}
+
+package calculate;
+
+public class Cuboid extends Rectangle{
+    private double height;
+
+    public Cuboid(double longth,double width,double height){
+        super(longth,width);
+        this.height = height;
+    }
+
+    public void setHeight(){
+        this.height = height;
+    }
+    public double getHeight(){
+        return height;
+    }
+    @Override
+    public void setArea() {
+        super.setArea();
+    }
+
+    public void setPerimeter(){
+       super.setPerimeter();
+    }
+
+    public void setVolume(){
+        volume = super.getLongth() * super.getWidth() * height;
+    }
+
+}
+
+package calculate;
+
+public class Cylinder extends Circle{
+    private double height;
+
+    public Cylinder(double radius,double height){
+        super(radius);
+        this.height = height;
+    }
+
+    public void setHeight(){
+        this.height = height;
+    }
+    public double getHeight(){
+        return height;
+    }
+
+    @Override
+    public void setArea() {
+        super.setArea();
+    }
+
+    public void setPerimeter(){
+        super.setPerimeter();
+    }
+
+    public void setVolume(){
+        volume = super.getArea() * height;
+    }
+}
+
+package calculate;
+
+public class Test {
+    public static void main(String[] args) {
+        Rectangle rectangle= new Rectangle(4,5);
+        Shape sr = rectangle;
+        rectangle.setArea();
+        rectangle.setPerimeter();
+        System.out.println("长为 ： " + rectangle.getLongth() + "宽为 ： " + rectangle.getWidth() + "长方形");
+        System.out.println("面积： " + sr.getArea() + "周长为： " + sr.getPerimeter());
+
+        Circle circle = new Circle(2.5);
+        Shape sc = circle;
+        circle.setArea();
+        circle.setPerimeter();
+        System.out.println("半径为： " + circle.getRadius() + "的圆");
+        System.out.println("面积： " + sc.getArea() + "周长为： " + sc.getPerimeter());
+
+        Cuboid cuboid = new Cuboid(8,5,6);
+        Shape sC = cuboid;
+        cuboid.setArea();
+        cuboid.setPerimeter();
+        cuboid.setVolume();
+        System.out.println("长为 ： " + cuboid.getLongth() + "宽为 ： " + cuboid.getWidth() + "高为 ： " + cuboid.getHeight() + "长方体");
+        System.out.println("底面面积： " + sC.getArea() + "底面周长为： " + sC.getPerimeter() + "体积为："+ sC.getVolume());
+
+        Cylinder cylinder = new Cylinder(2.5,6);
+        Shape sy = cylinder;
+        cylinder.setArea();
+        cylinder.setPerimeter();
+        cylinder.setVolume();
+        System.out.println("半径为 ： " + cylinder.getRadius()+ "高为 ： " + cylinder.getHeight() + "圆柱体");
+        System.out.println("底面面积： " + sy.getArea() + "底面周长为： " + sy.getPerimeter() + "体积为："+ sy.getVolume());
+    }
+}
