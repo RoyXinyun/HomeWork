@@ -1,17 +1,14 @@
 package calculate;
 
-public class Shape {
+abstract class Shape {
     double area;
     double perimeter;
     double volume;
 
-    public void setArea(){
-    };
-    public void setPerimeter(){
-    }
-    public void setVolume(){
-    };
-    
+    abstract void setArea();
+    abstract void setPerimeter();
+    abstract void setVolume();
+
     public double getArea(){
         return area;
     }
@@ -21,10 +18,7 @@ public class Shape {
     public double getVolume(){
         return volume;
     }
-
 }
-
-
 package calculate;
 
 public class Circle extends Shape{
@@ -47,9 +41,9 @@ public class Circle extends Shape{
     public void setPerimeter(){
         perimeter = 2 * Math.PI * radius;
     }
+    public void setVolume(){System.out.println("无体积");};
 
 }
-
 
 package calculate;
 
@@ -85,8 +79,9 @@ public class Rectangle extends Shape{
    public void setPerimeter(){
         perimeter = (longth + width) * 2;
    }
-}
 
+   public void setVolume(){System.out.println("无体积");};
+}
 package calculate;
 
 public class Cuboid extends Rectangle{
@@ -149,6 +144,7 @@ public class Cylinder extends Circle{
     }
 }
 
+
 package calculate;
 
 public class Test {
@@ -184,3 +180,4 @@ public class Test {
         System.out.println("底面面积： " + sy.getArea() + "底面周长为： " + sy.getPerimeter() + "体积为："+ sy.getVolume());
     }
 }
+
