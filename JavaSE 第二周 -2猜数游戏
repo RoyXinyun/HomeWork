@@ -1,0 +1,148 @@
+package guess;
+
+import java.util.*;
+
+public class Game {
+    private int pass;
+    private int number;
+    private int usernumber;
+    private int counter;
+    private String choose;
+    private boolean result;
+
+    public Game(int pass){
+        this.begin();
+        this.play();
+        this.end();
+        this.pass = pass;
+    }
+
+    public int getPass(){
+        return pass;
+    }
+
+    public void setNumber() {
+        Random rand = new Random();
+        number = rand.nextInt(100) + 1;
+    }
+
+    public int getNumber(){
+        return number;
+    }
+
+    public boolean getResult(){
+        return result;
+    }
+
+    public void begin(){
+        System.out.println("*****游戏开始*****");
+        this.setNumber();
+    }
+
+    public void setCounter(){
+        counter++;
+    }
+
+    public int getCounter(){
+        return counter;
+    }
+
+    public void end(){
+        System.out.println("*****游戏结束*****");
+        if(choose.equalsIgnoreCase("n")){
+            System.out.println("游戏失败 π_π");
+            result = false;
+        }
+        else{
+            System.out.println("游戏成功 \\^O^//");
+            result = true;
+        }
+        System.out.println("本轮游戏您玩了 " + this.getCounter() + "轮");
+        System.out.println("数字是 " + this.getNumber());
+    }
+
+    public void play(){
+        Scanner input = new Scanner(System.in);
+        while(true){
+            System.out.println("输入一个数字");
+            usernumber = input.nextInt();
+            this.setCounter();
+
+            if(usernumber > number){
+                System.out.println("大了");
+                System.out.println("继续猜吗？" + "Y(继续) (^_^)" + " N(不想玩了) T_T");
+                choose = input.next();
+                if(choose.equalsIgnoreCase("n"))
+                    break;
+            }
+
+            else if(usernumber < number){
+                System.out.println("小了");
+                System.out.println("继续猜吗？" + "Y(继续) (^_^)" + " N(不想玩了) T_T");
+                choose = input.next();
+                if(choose.equalsIgnoreCase("n"))
+                    break;
+            }
+            else{
+                System.out.println("恭喜！ (｢･ω･)｢嘿 ");
+                break;
+            }
+        }
+    }
+
+}
+
+package guess;
+
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) {
+        String game;
+        Scanner in = new Scanner(System.in);
+        ArrayList<Game> player = new ArrayList<Game>();
+
+        System.out.println("猜一个数字"+ "Y/y (再来一轮) + N/n(不来了)");
+
+        int i = 0;
+        while((game = in.next()).equalsIgnoreCase("y")){
+            player.add(new Game(i+1));
+            System.out.println("猜一个数字" + "Y/y (再来一轮) + N/n(不来了)");
+            i++;
+        }
+
+        ranking(player);
+        display(player);
+
+    }
+
+    public static void display(ArrayList<Game> players) {
+        for(int i = 0;i < players.size();i++){
+            System.out.println("第" + players.get(i).getPass() + "轮" + " 得分：" + players.get(i).getCounter() + "分 ");
+            if(players.get(i).getResult() == false)
+                System.out.println("失败");
+            else
+                System.out.println("成功");
+        }
+    }
+
+    public static void ranking(ArrayList<Game> players) {
+        for(int i = 1;i < players.size();i++){
+            for(int j = 0;j < players.size() - i;j++){
+                if(players.get(j).getNumber() > players.get(j+1).getNumber()){
+                    Game temp;
+                    temp = players.get(j);
+                    players.set(j, players.get(j+1));
+                    players.set(j+1,temp);
+                }
+            }
+        }
+        for(int i = 0;i < players.size();i++){
+            if(players.get(i).getResult() == false){
+                players.add(players.get(i));
+                players.remove(players.get(i));
+            }
+        }
+    }
+}
+
