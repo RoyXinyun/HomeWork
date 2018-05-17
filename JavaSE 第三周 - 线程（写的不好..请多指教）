@@ -1,0 +1,144 @@
+package Takoyaki;
+
+import java.util.*;
+
+public class Takoyaki {
+    private int order;
+    private String[] menu;
+    private boolean flag = false;
+    private String choose;
+    private int num;
+
+    public Takoyaki(){
+        System.out.println("你好！这里是著名的章鱼烧店！");
+    }
+
+    public void displayMenu(){
+        menu = new String[6];
+        menu[0] = "原味";
+        menu[1] = "咸味";
+        menu[2] = "甜味";
+        menu[3] = "甜辣味";
+        menu[4] = "香甜沙拉味";
+        menu[5] = "黑椒牛柳味";
+
+        for(int i = 0;i < menu.length;i++){
+            System.out.println( (i + 1) + "-----" + menu[i]);
+        }
+    }
+
+    public synchronized void order(){
+        if(!flag){
+            Scanner input = new Scanner(System.in);
+            System.out.println("请选择您要的口味   美味即将赶来");
+            order = input.nextInt() - 1;
+            System.out.println("是否外带？ Y/N");
+            choose = input.next();
+
+            num++;
+            flag = true;
+            super.notify();
+        }
+        else
+        {
+            try {
+                super.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public int getOrder(){
+        return order;
+    }
+
+    public synchronized void make(){
+        if(flag){
+            System.out.println("正在制作");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("制作完成！ 您要的" + menu[this.getOrder()] + "章鱼烧已经好了");
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(this.num + "号 小仙女，您的章鱼烧来了");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(this.choose.equalsIgnoreCase("Y")){
+                System.out.println(" *外带* ");
+            }
+            else
+                System.out.println(" *已取走* ");
+            flag = false;
+            super.notify();
+        }
+        else{
+            try {
+                super.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    }
+
+
+package Takoyaki;
+
+public class Customer implements Runnable {
+    private Takoyaki ta;
+    public Customer(Takoyaki ta){
+        this.ta = ta;
+        this.ta.displayMenu();
+    }
+    public void run(){
+        this.ta.order();
+    }
+}
+
+package Takoyaki;
+
+public class Shop implements Runnable{
+    private Takoyaki ta;
+    public Shop(Takoyaki ta){
+        this.ta = ta;
+    }
+    public void run(){
+        int n = this.ta.getOrder();
+        this.ta.make();
+
+    }
+}
+package Takoyaki;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Test {
+    public static void main(String[] args) {
+        Takoyaki t = new Takoyaki();
+        Customer cus = new Customer(t);
+        Shop shop = new Shop(t);
+
+        ExecutorService exec = Executors.newFixedThreadPool(1);
+
+        for(int i = 0;i < 10;i++){
+            exec.execute(cus);
+            exec.execute(shop);
+        }
+
+    }
+}
