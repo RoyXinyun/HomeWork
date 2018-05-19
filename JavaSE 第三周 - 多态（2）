@@ -1,0 +1,159 @@
+package grade;
+
+public abstract class GradedActivity {
+    private double score;
+    private char grade;
+
+    public abstract void setScore();
+    public abstract double getScore();
+
+    public void setGrade(double score){
+        if(score >= 90)
+            grade = 'A';
+        else if(score >= 80)
+            grade = 'B';
+        else if(score >= 70)
+            grade = 'C';
+        else if(score >= 60)
+            grade = 'D';
+        else if(score >= 40)
+            grade = 'E';
+        else
+            grade = 'F';
+    };
+    public char getGrade(){
+        return grade;
+    };
+
+}
+
+package grade;
+
+import java.util.*;
+
+public class Quizzes extends GradedActivity{
+    Scanner input = new Scanner(System.in);
+
+    private double score[];
+    private char grade;
+    private double average = 0;
+
+    public void setScore(){
+        score = new double[10];
+        System.out.println("请输入小测验的成绩： ");
+        for(int i = 0;i < 10;i++){
+            System.out.println("第" + (i+1) + "次: ");
+            score[i] = input.nextDouble();
+            average += score[i];
+        }
+        average /= 10;
+    }
+
+    public double getScore(){
+        for(int i = 0;i < 10;i++){
+            System.out.print(score[i] + " ");
+        }
+        System.out.println(average);
+        return average;
+    }
+
+}
+package grade;
+
+import java.util.Scanner;
+
+public class MidtermExam extends LabReports{
+    private double score;
+    public void setScore(){
+        System.out.println("请输入期中成绩： ");
+        score = input.nextDouble();
+    };
+    public double getScore(){
+        return score;
+    };
+}
+
+package grade;
+
+public class PassFailExam extends LabReports{
+    private double score;
+    public void setScore(){
+        System.out.println("请输入补考成绩： ");
+        score = input.nextDouble();
+    };
+    public double getScore(){
+        return score;
+    };
+
+}
+
+package grade;
+
+public class FinalExam extends LabReports {
+    private double score;
+    public void setScore(){
+        System.out.println("请输入期末成绩： ");
+        score = input.nextDouble();
+    };
+    public double getScore(){
+        return score;
+    };
+}
+
+package grade;
+
+import java.util.Scanner;
+
+public class LabReports extends GradedActivity{
+    Scanner input = new Scanner(System.in);
+    private double score;
+    private char grade;
+
+    public void setScore(){
+        System.out.println("请输入实验成绩： ");
+        score = input.nextDouble();
+    };
+    public double getScore(){
+        return score;
+    };
+}
+
+
+package grade;
+
+public class Test {
+    public static void main(String[] args) {
+        GradedActivity grade1 = new Quizzes();
+        grade1.setScore();
+        grade1.setGrade(grade1.getScore());
+
+        GradedActivity grade2 = new LabReports();
+        grade2.setScore();
+        grade2.setGrade(grade2.getScore());
+
+        GradedActivity grade3 = new MidtermExam();
+        grade3.setScore();
+        grade3.setGrade(grade3.getScore());
+
+        GradedActivity grade4 = new FinalExam();
+        grade4.setScore();
+        grade4.setGrade(grade4.getScore());
+
+        if(grade4.getScore() < 60){
+            GradedActivity grade5 = new PassFailExam() ;
+            grade5.setScore();
+            grade5.setGrade(grade5.getScore());
+            System.out.println("小测验 " + " 实验 " + " 期中 " + " 期末 " + " 补考 ");
+            System.out.println(grade1.getGrade() + "    " + grade2.getGrade() + "     " +
+                         grade3.getGrade() + "     " + grade4.getGrade() + "     " + grade5.getGrade());
+            }
+            else
+        {
+            System.out.println("小测验 " + " 实验 " + " 期中 " + " 期末 ");
+            System.out.println(grade1.getGrade() + "    " + grade2.getGrade() + "     " +
+                    grade3.getGrade() + "     " + grade4.getGrade() + "     " );
+        }
+
+
+    }
+}
